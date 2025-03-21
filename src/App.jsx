@@ -1,10 +1,12 @@
-// src/App.jsx
+// src/App.jsx 修改
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
 import Home from './pages/Home';
 import StyleDetail from './pages/StyleDetail';
 import PracticeDetail from './pages/PracticeDetail';
+import StylesListPage from './pages/StylesListPage';
+import PracticesListPage from './pages/PracticesListPage';
 import AdvancedTools from './pages/AdvancedTools';
 import StyleComparison from './components/advanced/StyleComparison';
 import CssGenerator from './components/advanced/CssGenerator';
@@ -64,6 +66,10 @@ const App = () => {
     const renderPage = () => {
         if (currentPage === '/' || currentPage === '') {
             return <Home onNavigate={navigate} />;
+        } else if (currentPage === '/styles') {
+            return <StylesListPage onNavigate={navigate} />;
+        } else if (currentPage === '/practices') {
+            return <PracticesListPage onNavigate={navigate} />;
         } else if (currentPage.startsWith('/styles/')) {
             // 检查是否是扩展风格
             const extendedStyles = ['3d-elements', 'minimal-motion', 'micro-interactions', 'asymmetric-layouts', 'typography-focused'];

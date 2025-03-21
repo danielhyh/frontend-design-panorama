@@ -1,15 +1,14 @@
-// src/components/common/Navbar.jsx
 import React, { useState, useEffect } from 'react';
 import ThemeToggle from './ThemeToggle';
 
 const Navbar = ({ onNavigate, currentPath }) => {
     const [isOpen, setIsOpen] = useState(false);
-    
+
     // 关闭移动端菜单（如果路由变化）
     useEffect(() => {
         setIsOpen(false);
     }, [currentPath]);
-    
+
     // 链接点击处理函数
     const handleLinkClick = (path, e) => {
         e.preventDefault();
@@ -38,21 +37,21 @@ const Navbar = ({ onNavigate, currentPath }) => {
                             <a
                                 href="/styles"
                                 onClick={(e) => handleLinkClick('/styles', e)}
-                                className={`${currentPath.includes('/styles') ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
+                                className={`${currentPath === '/styles' || currentPath.includes('/styles/') ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
                             >
                                 设计风格
                             </a>
                             <a
                                 href="/practices"
                                 onClick={(e) => handleLinkClick('/practices', e)}
-                                className={`${currentPath.includes('/practices') ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
+                                className={`${currentPath === '/practices' || currentPath.includes('/practices/') ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
                             >
                                 最佳实践
                             </a>
                             <a
                                 href="/tools"
                                 onClick={(e) => handleLinkClick('/tools', e)}
-                                className={`${currentPath.includes('/tools') ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
+                                className={`${currentPath === '/tools' || currentPath.includes('/tools/') ? 'border-indigo-500 text-gray-900 dark:text-white' : 'border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-100'} inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium`}
                             >
                                 高级工具
                             </a>
@@ -100,21 +99,21 @@ const Navbar = ({ onNavigate, currentPath }) => {
                         <a
                             href="/styles"
                             onClick={(e) => handleLinkClick('/styles', e)}
-                            className={`${currentPath.includes('/styles') ? 'bg-indigo-50 dark:bg-indigo-900 border-indigo-500 text-indigo-700 dark:text-indigo-300' : 'border-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-800 dark:hover:text-gray-100'} block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
+                            className={`${currentPath === '/styles' || currentPath.includes('/styles/') ? 'bg-indigo-50 dark:bg-indigo-900 border-indigo-500 text-indigo-700 dark:text-indigo-300' : 'border-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-800 dark:hover:text-gray-100'} block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
                         >
                             设计风格
                         </a>
                         <a
                             href="/practices"
                             onClick={(e) => handleLinkClick('/practices', e)}
-                            className={`${currentPath.includes('/practices') ? 'bg-indigo-50 dark:bg-indigo-900 border-indigo-500 text-indigo-700 dark:text-indigo-300' : 'border-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-800 dark:hover:text-gray-100'} block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
+                            className={`${currentPath === '/practices' || currentPath.includes('/practices/') ? 'bg-indigo-50 dark:bg-indigo-900 border-indigo-500 text-indigo-700 dark:text-indigo-300' : 'border-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-800 dark:hover:text-gray-100'} block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
                         >
                             最佳实践
                         </a>
                         <a
                             href="/tools"
                             onClick={(e) => handleLinkClick('/tools', e)}
-                            className={`${currentPath.includes('/tools') ? 'bg-indigo-50 dark:bg-indigo-900 border-indigo-500 text-indigo-700 dark:text-indigo-300' : 'border-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-800 dark:hover:text-gray-100'} block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
+                            className={`${currentPath === '/tools' || currentPath.includes('/tools/') ? 'bg-indigo-50 dark:bg-indigo-900 border-indigo-500 text-indigo-700 dark:text-indigo-300' : 'border-transparent text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-600 hover:text-gray-800 dark:hover:text-gray-100'} block pl-3 pr-4 py-2 border-l-4 text-base font-medium`}
                         >
                             高级工具
                         </a>

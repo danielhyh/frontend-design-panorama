@@ -1,4 +1,4 @@
-// src/components/home/Timeline.jsx
+// src/components/home/Timeline.jsx 修改
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
@@ -6,6 +6,26 @@ import { Link } from 'react-router-dom';
 const TimelineItem = ({ style, index, total }) => {
     // 左右交替布局
     const isEven = index % 2 === 0;
+
+    // 根据风格获取对应样式
+    const getStyleSpecificClasses = () => {
+        switch(style.id) {
+            case 'skeuomorphism':
+                return 'bg-gradient-to-b from-gray-100 to-gray-300 border border-gray-400 shadow-md';
+            case 'flat-design':
+                return 'bg-white border-l-4 border-blue-500';
+            case 'material-design':
+                return 'bg-white shadow-md hover:shadow-lg transition-shadow duration-300';
+            case 'neumorphism':
+                return 'bg-gray-200 shadow-[5px_5px_10px_#bebebe,-5px_-5px_10px_#ffffff]';
+            case 'glassmorphism':
+                return 'bg-white/20 backdrop-blur-md border border-white/30';
+            case 'dark-mode':
+                return 'bg-gray-800 text-white';
+            default:
+                return 'bg-white dark:bg-gray-800';
+        }
+    };
 
     return (
         <motion.div
@@ -16,20 +36,22 @@ const TimelineItem = ({ style, index, total }) => {
         >
             {/* 内容区 - 总是占50%宽度 */}
             <div className="w-full md:w-5/12">
-                <div className="bg-white dark:bg-gray-800 p-5 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className={`p-5 rounded-lg transition-all duration-300 ${getStyleSpecificClasses()}`}>
                     <h3 className="text-xl font-bold mb-2" style={{ color: style.color }}>{style.name}</h3>
                     <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">{style.period}</div>
-                    <p className="text-gray-700 dark:text-gray-300">{style.description}</p>
+                    <p className={`${style.id === 'dark-mode' ? 'text-gray-300' : 'text-gray-700 dark:text-gray-300'}`}>
+                        {style.description.substring(0, 120)}...
+                    </p>
                     <Link
                         to={`/styles/${style.id}`}
-                        className="mt-3 inline-block text-blue-600 dark:text-blue-400 hover:underline"
+                        className={`mt-3 inline-block ${style.id === 'dark-mode' ? 'text-purple-300' : 'text-blue-600 dark:text-blue-400'} hover:underline`}
                     >
                         了解更多 →
                     </Link>
                 </div>
             </div>
 
-            {/* 中间点和线 - 只在MD以上显示 */}
+            {/* 中间点和线 */}
             <div className="hidden md:flex md:w-2/12 justify-center relative">
                 {/* 垂直线 */}
                 {index !== 0 && (
@@ -47,16 +69,6 @@ const TimelineItem = ({ style, index, total }) => {
                     style={{ backgroundColor: style.color }}
                 >
                     <span className="text-white font-bold text-sm">{index + 1}</span>
-                </div>
-            </div>
-
-            {/* 移动端时间指示 - 仅在小屏幕显示 */}
-            <div className="md:hidden absolute left-0" style={{ top: '50%' }}>
-                <div
-                    className="w-6 h-6 rounded-full shadow-md flex items-center justify-center"
-                    style={{ backgroundColor: style.color }}
-                >
-                    <span className="text-white font-bold text-xs">{index + 1}</span>
                 </div>
             </div>
 

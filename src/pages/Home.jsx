@@ -1,16 +1,16 @@
-// src/pages/Home.jsx
+// src/pages/Home.jsx 修改
 import React from 'react';
 import { motion } from 'framer-motion';
 import HeroSection from '../components/home/HeroSection';
 import Timeline from '../components/home/Timeline';
-import BestPracticeCards from '../components/home/BestPracticeCards';
+import ExtraStylesSection from '../components/home/ExtraStylesSection';
 import StyleCloud from '../components/home/StyleCloud';
 import Container from '../components/common/Container';
-import { getAllStyles, getBestPractices } from '../data/dataService';
+import { getAllStyles, getExtraStyles } from '../data/dataService';
 
 const Home = ({ onNavigate }) => {
     const allStyles = getAllStyles();
-    const bestPractices = getBestPractices();
+    const extraStyles = getExtraStyles();
 
     // 词云点击处理
     const handleWordClick = (word) => {
@@ -49,7 +49,7 @@ const Home = ({ onNavigate }) => {
                 </Container>
             </section>
 
-            {/* 最佳实践区域 */}
+            {/* 额外设计风格区域 */}
             <section className="py-20 px-6 bg-gradient-to-b from-indigo-50 to-white dark:from-gray-800 dark:to-gray-900">
                 <Container>
                     <motion.div
@@ -58,13 +58,13 @@ const Home = ({ onNavigate }) => {
                         transition={{ duration: 0.8, delay: 0.2 }}
                     >
                         <div className="text-center mb-16">
-                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">混合设计最佳实践</h2>
+                            <h2 className="text-3xl md:text-4xl font-bold mb-4 text-gray-900 dark:text-white">探索更多设计风格</h2>
                             <p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                                融合多种设计风格的优点，创造既美观又实用的用户界面
+                                发现更多前沿的设计理念与表现形式，拓展你的设计视野
                             </p>
                         </div>
 
-                        <BestPracticeCards practices={bestPractices} onNavigate={onNavigate} />
+                        <ExtraStylesSection styles={extraStyles} onNavigate={onNavigate} />
                     </motion.div>
                 </Container>
             </section>

@@ -1,4 +1,4 @@
-// src/pages/StyleDetail.jsx
+// src/pages/StyleDetail.jsx 修改
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
@@ -21,7 +21,7 @@ const StyleDetail = ({ styleId, onNavigate }) => {
     const [prevStyle, setPrevStyle] = useState(null);
     const [nextStyle, setNextStyle] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [otherStyles, setOtherStyles] = useState([]); // 添加其他风格状态
+    const [otherStyles, setOtherStyles] = useState([]);
 
     useEffect(() => {
         // 模拟从API获取数据的延迟
@@ -67,8 +67,28 @@ const StyleDetail = ({ styleId, onNavigate }) => {
         );
     }
 
+    // 根据风格获取风格卡片样式
+    const getStyleCardClasses = () => {
+        switch(style.id) {
+            case 'skeuomorphism':
+                return 'bg-gradient-to-b from-gray-100 to-gray-300 border border-gray-400 shadow-md';
+            case 'flat-design':
+                return 'bg-white border-l-4 border-blue-500';
+            case 'material-design':
+                return 'bg-white shadow-md hover:shadow-lg transition-shadow duration-300';
+            case 'neumorphism':
+                return 'bg-gray-200 shadow-[5px_5px_10px_#bebebe,-5px_-5px_10px_#ffffff]';
+            case 'glassmorphism':
+                return 'bg-white/20 backdrop-blur-md border border-white/30';
+            case 'dark-mode':
+                return 'bg-gray-800 text-white';
+            default:
+                return 'bg-white dark:bg-gray-800';
+        }
+    };
+
     return (
-        <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
+        <div className={`min-h-screen ${style.id === 'glassmorphism' ? 'bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500' : style.id === 'neumorphism' ? 'bg-gray-200' : style.id === 'dark-mode' ? 'bg-gray-900' : 'bg-gray-50 dark:bg-gray-900'}`}>
             {/* 风格头部 */}
             <StyleHeader style={style} />
 
@@ -81,9 +101,9 @@ const StyleDetail = ({ styleId, onNavigate }) => {
                 >
                     {/* 风格描述 */}
                     <section className="mb-16">
-                        <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">风格概述</h2>
-                        <div className="style-card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                            <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
+                        <h2 className={`text-3xl font-bold mb-6 ${style.id === 'dark-mode' ? 'text-white' : style.id === 'glassmorphism' ? 'text-white' : 'text-gray-900 dark:text-white'}`}>风格概述</h2>
+                        <div className={`style-card p-6 rounded-lg ${getStyleCardClasses()}`}>
+                            <p className={`text-lg ${style.id === 'dark-mode' ? 'text-gray-300' : style.id === 'glassmorphism' ? 'text-white' : 'text-gray-700 dark:text-gray-300'} leading-relaxed`}>
                                 {style.description}
                             </p>
                         </div>
@@ -91,29 +111,29 @@ const StyleDetail = ({ styleId, onNavigate }) => {
 
                     {/* 核心特征 */}
                     <section className="mb-16">
-                        <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">核心特征</h2>
+                        <h2 className={`text-3xl font-bold mb-6 ${style.id === 'dark-mode' ? 'text-white' : style.id === 'glassmorphism' ? 'text-white' : 'text-gray-900 dark:text-white'}`}>核心特征</h2>
                         <FeaturesList features={style.coreFeatures} />
                     </section>
 
                     {/* 实现技巧 */}
                     <section className="mb-16">
-                        <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">实现技巧</h2>
+                        <h2 className={`text-3xl font-bold mb-6 ${style.id === 'dark-mode' ? 'text-white' : style.id === 'glassmorphism' ? 'text-white' : 'text-gray-900 dark:text-white'}`}>实现技巧</h2>
                         <TipsSection tips={style.implementationTips} />
                     </section>
 
                     {/* 应用场景 */}
                     <section className="mb-16">
-                        <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">应用场景</h2>
+                        <h2 className={`text-3xl font-bold mb-6 ${style.id === 'dark-mode' ? 'text-white' : style.id === 'glassmorphism' ? 'text-white' : 'text-gray-900 dark:text-white'}`}>应用场景</h2>
                         <ScenariosList scenarios={style.applicationScenarios} />
                     </section>
 
                     {/* 元素展示 */}
                     <section className="mb-16">
-                        <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">风格元素示例</h2>
-                        <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
+                        <h2 className={`text-3xl font-bold mb-6 ${style.id === 'dark-mode' ? 'text-white' : style.id === 'glassmorphism' ? 'text-white' : 'text-gray-900 dark:text-white'}`}>风格元素示例</h2>
+                        <p className={`text-lg ${style.id === 'dark-mode' ? 'text-gray-300' : style.id === 'glassmorphism' ? 'text-white' : 'text-gray-600 dark:text-gray-300'} mb-8`}>
                             悬停或点击查看实现代码，轻松掌握{style.name}的关键元素
                         </p>
-                        <ElementShowcase elements={style.elements} />
+                        <ElementShowcase elements={style.elements} styleId={style.id} />
                     </section>
 
                     {/* 其他风格 */}

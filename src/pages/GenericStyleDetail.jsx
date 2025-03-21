@@ -1,4 +1,4 @@
-// src/pages/GenericStyleDetail.jsx
+// src/pages/GenericStyleDetail.jsx 修改
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
@@ -172,8 +172,43 @@ const GenericStyleDetail = ({ styleId: propsStyleId, onNavigate }) => {
         );
     }
 
+    // 根据不同风格获取不同的背景和卡片样式
+    const getBackgroundStyle = () => {
+        switch(style.id) {
+            case '3d-elements':
+                return 'bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-blue-900';
+            case 'minimal-motion':
+                return 'bg-gradient-to-r from-orange-50 to-amber-100 dark:from-gray-900 dark:to-orange-900';
+            case 'micro-interactions':
+                return 'bg-gradient-to-r from-green-50 to-emerald-100 dark:from-gray-900 dark:to-green-900';
+            case 'asymmetric-layouts':
+                return 'bg-gradient-to-r from-purple-50 to-fuchsia-100 dark:from-gray-900 dark:to-purple-900';
+            case 'typography-focused':
+                return 'bg-gradient-to-r from-cyan-50 to-teal-100 dark:from-gray-900 dark:to-cyan-900';
+            default:
+                return 'bg-gray-50 dark:bg-gray-900';
+        }
+    };
+
+    const getCardStyle = () => {
+        switch(style.id) {
+            case '3d-elements':
+                return 'bg-white shadow-lg dark:bg-gray-800 transform perspective-1000 rotateX(2deg) rotateY(-2deg)';
+            case 'minimal-motion':
+                return 'bg-white shadow-md dark:bg-gray-800 transition-all duration-300 hover:shadow-lg';
+            case 'micro-interactions':
+                return 'bg-white shadow-md dark:bg-gray-800 hover:shadow-lg transition-all duration-200';
+            case 'asymmetric-layouts':
+                return 'bg-white shadow-md dark:bg-gray-800 transform -rotate-1';
+            case 'typography-focused':
+                return 'bg-white shadow-md dark:bg-gray-800 border-l-4 border-cyan-500';
+            default:
+                return 'bg-white dark:bg-gray-800';
+        }
+    };
+
     return (
-        <div className="bg-gray-50 dark:bg-gray-900 min-h-screen">
+        <div className={`min-h-screen ${getBackgroundStyle()}`}>
             {/* 风格头部 */}
             <div
                 className="py-20 px-6 text-white text-center"
@@ -209,7 +244,7 @@ const GenericStyleDetail = ({ styleId: propsStyleId, onNavigate }) => {
                     {/* 风格描述 */}
                     <section className="mb-16">
                         <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">风格概述</h2>
-                        <div className="style-card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                        <div className={`p-6 rounded-lg shadow-md ${getCardStyle()}`}>
                             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
                                 {style.description}
                             </p>
@@ -223,7 +258,7 @@ const GenericStyleDetail = ({ styleId: propsStyleId, onNavigate }) => {
                             {style.features.map((feature, index) => (
                                 <motion.div
                                     key={index}
-                                    className="style-card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
+                                    className={`p-6 rounded-lg shadow-md ${getCardStyle()}`}
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1 }}
@@ -240,7 +275,7 @@ const GenericStyleDetail = ({ styleId: propsStyleId, onNavigate }) => {
                     {style.implementationTips && (
                         <section className="mb-16">
                             <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">实现技巧</h2>
-                            <div className="style-card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                            <div className={`p-6 rounded-lg shadow-md ${getCardStyle()}`}>
                                 <ul className="space-y-4">
                                     {style.implementationTips.map((tip, index) => (
                                         <motion.li
@@ -263,7 +298,7 @@ const GenericStyleDetail = ({ styleId: propsStyleId, onNavigate }) => {
                     {style.applicationScenarios && (
                         <section className="mb-16">
                             <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">应用场景</h2>
-                            <div className="style-card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                            <div className={`p-6 rounded-lg shadow-md ${getCardStyle()}`}>
                                 <ul className="space-y-4">
                                     {style.applicationScenarios.map((scenario, index) => (
                                         <motion.li

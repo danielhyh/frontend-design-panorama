@@ -2,33 +2,39 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
+import { useStyleContext } from '../context/StyleContext';
 import Container from '../components/common/Container';
 import CodeDisplay from '../components/common/CodeDisplay';
 import Button from '../components/common/Button';
 import { getBestPractices } from '../data/dataService';
 
-const PracticeDetail = () => {
-    const { practiceId } = useParams();
+const PracticeDetail = ({ practiceId, onNavigate }) => {
+    const params = useParams();
+    const actualPracticeId = practiceId || params.practiceId;
     const [practice, setPractice] = useState(null);
     const [loading, setLoading] = useState(true);
+    const { changeStyle } = useStyleContext();
 
     useEffect(() => {
         // 模拟从API获取数据的延迟
         const fetchData = () => {
             setLoading(true);
 
-            // 获取最佳实践数据（这里简化为直接返回第一个）
+            // 获取最佳实践数据
             const practices = getBestPractices();
-            const currentPractice = practices.find(p => p.id === practiceId) || practices[0];
+            const currentPractice = practices.find(p => p.id === actualPracticeId) || practices[0];
 
             setPractice(currentPractice);
             setLoading(false);
+
+            // 设置全局风格为"协调之美"
+            changeStyle('harmonic-fusion');
         };
 
         fetchData();
         // 页面滚动到顶部
         window.scrollTo(0, 0);
-    }, [practiceId]);
+    }, [actualPracticeId, changeStyle]);
 
     if (loading || !practice) {
         return (
@@ -119,7 +125,7 @@ const PracticeDetail = () => {
                     {/* 实践概述 */}
                     <section className="mb-16">
                         <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">实践概述</h2>
-                        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                        <div className="style-card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
                             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
                                 {practice.description}
                             </p>
@@ -133,7 +139,7 @@ const PracticeDetail = () => {
                             {practice.coreFeatures.map((feature, index) => (
                                 <motion.div
                                     key={index}
-                                    className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
+                                    className="style-card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md"
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.1 }}
@@ -158,18 +164,18 @@ const PracticeDetail = () => {
                     {/* 应用示例 */}
                     <section className="mb-16">
                         <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">应用示例</h2>
-                        <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
+                        <div className="style-card bg-white dark:bg-gray-800 p-8 rounded-lg shadow-md">
                             <h3 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">协调之美组件库</h3>
 
                             {/* 示例卡片 */}
                             <div className="mb-8 p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                                <div className="max-w-md mx-auto p-6 bg-white dark:bg-gray-800 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
+                                <div className="max-w-md mx-auto p-6 style-card bg-white dark:bg-gray-800 rounded-lg shadow-md transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1">
                                     <h4 className="text-xl font-bold mb-4 text-gray-900 dark:text-white">融合设计卡片</h4>
                                     <p className="text-gray-600 dark:text-gray-300 mb-6">
                                         该卡片融合了多种设计风格的优点，在不同主题下保持一致的用户体验
                                     </p>
                                     <div className="flex justify-end">
-                                        <button className="px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-md shadow-sm hover:shadow-md transition-all duration-300">
+                                        <button className="style-button px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-md shadow-sm hover:shadow-md transition-all duration-300">
                                             了解更多
                                         </button>
                                     </div>
@@ -179,7 +185,7 @@ const PracticeDetail = () => {
                             {/* 按钮组 */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                                 <div className="flex flex-col items-center p-4">
-                                    <button className="w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
+                                    <button className="style-button w-full px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg shadow-sm hover:shadow-md transition-all duration-300">
                                         主要按钮
                                     </button>
                                     <span className="mt-2 text-sm text-gray-500 dark:text-gray-400">Primary Button</span>

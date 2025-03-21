@@ -2,44 +2,59 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useParams } from 'react-router-dom';
+import { useStyleContext } from '../context/StyleContext';
 import StyleHeader from '../components/style/StyleHeader';
 import FeaturesList from '../components/style/FeaturesList';
 import TipsSection from '../components/style/TipsSection';
 import ScenariosList from '../components/style/ScenariosList';
 import ElementShowcase from '../components/style/ElementShowcase';
 import NavigationButtons from '../components/style/NavigationButtons';
+import OtherStyles from '../components/style/OtherStyles';
 import Container from '../components/common/Container';
-import { getStyleById, getPreviousStyle, getNextStyle } from '../data/dataService';
+import { getStyleById, getPreviousStyle, getNextStyle, getAllStyles } from '../data/dataService';
 
-const StyleDetail = () => {
-    const { styleId } = useParams();
+const StyleDetail = ({ styleId, onNavigate }) => {
+    const params = useParams();
+    const actualStyleId = styleId || params.styleId;
+    const { changeStyle } = useStyleContext();
     const [style, setStyle] = useState(null);
     const [prevStyle, setPrevStyle] = useState(null);
     const [nextStyle, setNextStyle] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [otherStyles, setOtherStyles] = useState([]); // 添加其他风格状态
 
     useEffect(() => {
         // 模拟从API获取数据的延迟
         const fetchData = () => {
             setLoading(true);
 
-            // 假设styleId来自URL参数
-            const currentId = styleId || 'material-design'; // 默认显示Material Design
+            // 获取styleId（优先使用props，然后是URL参数）
+            const currentId = actualStyleId || 'material-design'; // 默认显示Material Design
 
             const currentStyle = getStyleById(currentId);
             const previousStyle = getPreviousStyle(currentId);
             const nextStyle = getNextStyle(currentId);
 
+            // 设置其他相关风格
+            const allStyles = getAllStyles();
+            const filteredStyles = allStyles.filter(s => s.id !== currentId);
+            setOtherStyles(filteredStyles.slice(0, 3)); // 只显示最多3个其他风格
+
             setStyle(currentStyle);
             setPrevStyle(previousStyle);
             setNextStyle(nextStyle);
             setLoading(false);
+
+            // 设置全局风格
+            if (currentStyle) {
+                changeStyle(currentId);
+            }
         };
 
         fetchData();
         // 页面滚动到顶部
         window.scrollTo(0, 0);
-    }, [styleId]);
+    }, [actualStyleId, changeStyle]);
 
     if (loading || !style) {
         return (
@@ -67,7 +82,7 @@ const StyleDetail = () => {
                     {/* 风格描述 */}
                     <section className="mb-16">
                         <h2 className="text-3xl font-bold mb-6 text-gray-900 dark:text-white">风格概述</h2>
-                        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                        <div className="style-card bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
                             <p className="text-lg text-gray-700 dark:text-gray-300 leading-relaxed">
                                 {style.description}
                             </p>
@@ -100,6 +115,12 @@ const StyleDetail = () => {
                         </p>
                         <ElementShowcase elements={style.elements} />
                     </section>
+
+                    {/* 其他风格 */}
+                    <OtherStyles
+                        styles={otherStyles}
+                        onNavigate={onNavigate}
+                    />
 
                     {/* 导航按钮 */}
                     <NavigationButtons prevStyle={prevStyle} nextStyle={nextStyle} />

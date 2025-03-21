@@ -10,6 +10,8 @@ import StyleComparison from './components/advanced/StyleComparison';
 import CssGenerator from './components/advanced/CssGenerator';
 import StyleTrends from './components/advanced/StyleTrends';
 import NotFoundPage from './pages/NotFoundPage';
+import GenericStyleDetail from './pages/GenericStyleDetail';
+import { StyleProvider } from './context/StyleContext';
 
 const App = () => {
     // 简单的路由状态管理
@@ -63,6 +65,12 @@ const App = () => {
         if (currentPage === '/' || currentPage === '') {
             return <Home onNavigate={navigate} />;
         } else if (currentPage.startsWith('/styles/')) {
+            // 检查是否是扩展风格
+            const extendedStyles = ['3d-elements', 'minimal-motion', 'micro-interactions', 'asymmetric-layouts', 'typography-focused'];
+            if (extendedStyles.includes(params.id)) {
+                return <GenericStyleDetail styleId={params.id} onNavigate={navigate} />;
+            }
+            // 否则使用常规StyleDetail组件
             return <StyleDetail styleId={params.id} onNavigate={navigate} />;
         } else if (currentPage.startsWith('/practices/')) {
             return <PracticeDetail practiceId={params.id} onNavigate={navigate} />;
@@ -102,13 +110,15 @@ const App = () => {
     const NavbarWithNavigation = () => <Navbar onNavigate={navigate} currentPath={currentPage} />;
 
     return (
-        <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
-            <NavbarWithNavigation />
-            <main className="flex-grow pt-16 w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                {renderPage()}
-            </main>
-            <Footer onNavigate={navigate} />
-        </div>
+        <StyleProvider>
+            <div className="flex flex-col min-h-screen bg-gray-50 dark:bg-gray-900">
+                <NavbarWithNavigation />
+                <main className="flex-grow pt-16 w-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                    {renderPage()}
+                </main>
+                <Footer onNavigate={navigate} />
+            </div>
+        </StyleProvider>
     );
 };
 
